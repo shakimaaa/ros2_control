@@ -21,3 +21,21 @@ bbot_description
         ├── bbot.urdf.xacro
         └── inertial_macros.xacro
 ```
+### 在rviz内加载模型
+
+涉及到的部分有两部分，1.模型描述文件(urdf、xacro) 2.launch启动文件
+
+```tree
+  ├── launchy
+  │   └── bbot.launch.py
+  └── urdf
+      ├── bbot_description.xacro
+      ├── bbot.urdf.xacro
+      └── inertial_macros.xacro
+```
+首先在 `inertial_macros.xacro` 内定义了一些列基础的参数，比如颜色，不同形状的惯性。通用的全局常量
+
+然后在 `bbot_description.xacro` 定义了bbot的车轮车身，单独创建一个xacro文件，可以模块化的
+编写模型从而解耦，比如我还可以在新建一个`camera.xacro`文件单独为相机建模，我之后新建了一个`wheel_leg.xacro`为轮腿建模，也需要相机，这样我就可以直接引用`camera.xacro`这个文件。在这里是在`bbot.urdf.xacro`这个顶层文件进行了引用。
+
+最后通过编写launch`bbot.launch.py`文件启动rviz2加载模型。
